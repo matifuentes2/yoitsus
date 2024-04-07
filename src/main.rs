@@ -18,6 +18,8 @@ use tracing::{debug, error, info, instrument};
 
 use songbird::SerenityInit;
 
+// use rspotify::Credentials;
+
 /* Import commands */
 use crate::commands::askgpt::*;
 use crate::commands::help::*;
@@ -85,6 +87,19 @@ struct General;
 
 #[tokio::main]
 async fn main() {
+    // let creds = Credentials {
+    //     id: "58ce68abb8894a9ebf78568148651075".to_owned(),
+    //     secret: Some("640be1aff9114bb7b5069ade0071af6b".to_owned()),
+    // };
+    // // Initialize the Spotify client
+    // let mut spotify = rspotify::ClientCredsSpotify::new(creds);
+
+    // // The auth flow
+    // match spotify.request_token().await {
+    //     Ok(_) => println!("Token acquired successfully!"),
+    //     Err(e) => eprintln!("Error acquiring token: {:?}", e),
+    // }
+
     dotenv::dotenv().expect("Failed to load .env file.");
 
     let token = env::var("DISCORD_TOKEN").expect("Set your DISCORD_TOKEN environment variable!");

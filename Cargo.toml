@@ -18,4 +18,5 @@ chrono = "0.4.24"
 timeago = "0.4.1"
 regex = "1.8.3"
 chat-gpt-lib-rs = "0.2.1"
+rspotify = "0.13.1"
 

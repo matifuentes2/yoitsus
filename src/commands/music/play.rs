@@ -126,9 +126,10 @@ async fn play(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
                             .title(":notes: Song added to the queue!")
                             .thumbnail(metadata.thumbnail.clone().unwrap_or_else(|| String::from("https://images.unsplash.com/photo-1611162616475-46b635cb6868?ixlib=rb-4.0.3")))
                             .description(format!(
-                                "{} - {}",
+                                "{} - {} \n[Link to video]({})",
                                 metadata.title.clone().unwrap(),
-                                metadata.artist.clone().unwrap()
+                                metadata.artist.clone().unwrap(),
+                                metadata.source_url.clone().unwrap()
                             ))
                             .fields(vec![
                                 ("Songs queued", format!("{}", handler.queue().len()), true),
@@ -140,6 +141,7 @@ async fn play(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
                 .await?;
         // handle playlist
         } else if url.contains("playlist") {
+            // Conseguir JSON de metadatos de cada video de la playlist
             let get_raw_list = Command::new("yt-dlp")
                 .args(["-j", "--flat-playlist", &url])
                 .output()
@@ -149,7 +151,7 @@ async fn play(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
                 Ok(list) => String::from_utf8(list.stdout).unwrap(),
                 Err(_) => String::from("Error!"),
             };
-
+            // Extraer URLs del output de yt-dlp
             let re = Regex::new(r#""url": "(https://www.youtube.com/watch\?v=[A-Za-z0-9]{11})""#)
                 .unwrap();
 
